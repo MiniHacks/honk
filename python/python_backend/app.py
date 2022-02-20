@@ -92,6 +92,7 @@ def topics(body: Body):
 
     previous_embedding = np.array(json.loads(body.previous_embedding_str))
     similarity = np.dot(new_embedding, previous_embedding)
-    focused = similarity > 0.5
+    print(similarity)
+    focused = bool(similarity > 1)
 
     return { "focused": focused, "embed_string": embed_string }
