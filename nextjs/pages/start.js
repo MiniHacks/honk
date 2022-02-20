@@ -27,7 +27,7 @@ export default function Start() {
           I want to study...
         </Heading>
         <Heading color={textColor} fontWeight="regular" size="lg">
-          Focused, Friendly Learning.
+          This is a test
         </Heading>
         
         <Button
