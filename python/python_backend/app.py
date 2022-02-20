@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from random import choice, random
 from typing import List, Optional
 from pydantic import BaseModel
+import numpy as np
 
 class Element(BaseModel):
     title: str
@@ -18,11 +19,14 @@ yake_params = {
 import spacy
 nlp = spacy.load("en_core_web_trf")
 
+from sentence_transformers import SentenceTransformer
+mp_model = SentenceTransformer('sentence-transformers/all-mpnet-base-v1')
+
 app = FastAPI()
 phrase_extractor = KeywordExtractor(n=3, **yake_params)
 word_extractor = KeywordExtractor(n=1, **yake_params)
 
-@app.get("/")
+@app.get("/python/")
 async def root():
     return {"message": "Hello World"}
 
@@ -42,8 +46,15 @@ def topics(element: Element):
     # ==== SpaCy ====
     print("==== SpaCy =====")
     doc = nlp(full_text)
-    ents = doc.ents
-    print(f"{ents=}")
+    entities = doc.ents
+    print(f"{entities=}")
+
+    # ==== HuggingFace ====
+    print("==== HuggingFace ====")
+    title_embeds = mp_model.encode(title)
+    text_embeds = mp_model.encode(full_text)
+    print(f"{title_embeds=}")
+    print(f"{text_embeds=}")
 
     # ==== Processing ====
     print("==== Processing =====")
