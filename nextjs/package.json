@@ -12,6 +12,7 @@
     "firebase": "^9.6.7",
     "firebase-admin": "^10.0.2",
     "framer-motion": "^6",
+    "google-libphonenumber": "^3.2.27",
     "mongodb": "^4.4.0",
     "next": "latest",
     "next-auth": "^4.2.1",
