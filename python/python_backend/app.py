@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from random import choice, random
 from typing import List, Optional
 from pydantic import BaseModel
+import json
 import numpy as np
 
 class Element(BaseModel):
@@ -77,10 +78,8 @@ def topics(element: Element):
     """
     title_embeds = model.encode(title)
     text_embeds = model.encode(full_text)
-    embeds = np.hstack(title_embeds, text_embeds)
-    print(embeds)
-    return embeds
-    return {"title_embeds": title_embeds, "text_embeds": text_embeds}
+    embeds = np.hstack((title_embeds, text_embeds))
+    return json.dumps(embeds.tolist())
 
 
 @app.get("/python/distracted")
