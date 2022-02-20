@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from random import choice, random
 from typing import List
+import yake
 
 app = FastAPI()
 
@@ -9,8 +10,7 @@ async def root():
     return {"message": "Hello World"}
 
 @app.get("/topics")
-def topics(el: List[str]):
-    title, header, content = el
+def topics(title: str, header: str, content: str):
     return list(set([choice(title), choice(header), choice(content), choice(content)]))
 
 @app.get("/distracted")
