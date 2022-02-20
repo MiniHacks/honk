@@ -9,36 +9,41 @@ class Element(BaseModel):
     content: str
     header: Optional[str] = ""
 
+"""
 from yake import KeywordExtractor
 yake_params = {
     "lan": "en",
     "dedupLim": 0.9, # try 0.1 to distil sets?
     "top": 10
 }
+phrase_extractor = KeywordExtractor(n=3, **yake_params)
+word_extractor = KeywordExtractor(n=1, **yake_params)
 
 import spacy
 nlp = spacy.load("en_core_web_trf")
+"""
 
 from sentence_transformers import SentenceTransformer
+model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2') # probably the strongest
+"""
 mpnet_model = SentenceTransformer('sentence-transformers/paraphrase-mpnet-base-v2')
-mini_all_model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2') # probably the strongest
 mini_para_model = SentenceTransformer('sentence-transformers/paraphrase-MiniLM-L6-v2')
-
+mini_all_model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2') # probably the strongest
+"""
 
 app = FastAPI()
-phrase_extractor = KeywordExtractor(n=3, **yake_params)
-word_extractor = KeywordExtractor(n=1, **yake_params)
 
 @app.get("/python/")
 async def root():
     return {"message": "Hello World"}
 
-@app.get("/python/topics")
+@app.get("/python/embeddings")
 def topics(element: Element):
     title = element.title
     content = element.content
     header = element.header
     full_text = title + header + content
+    """
     # ==== YAKE! ====
     print("==== YAKE! ====")
     yake_phrases = phrase_extractor.extract_keywords(full_text)
@@ -69,6 +74,14 @@ def topics(element: Element):
     print(f"processed {yake_words=}")
 
     return list(set(yake_phrases + yake_words))#+ ents))
+    """
+    title_embeds = model.encode(title)
+    text_embeds = model.encode(full_text)
+    embeds = np.hstack(title_embeds, text_embeds)
+    print(embeds)
+    return embeds
+    return {"title_embeds": title_embeds, "text_embeds": text_embeds}
+
 
 @app.get("/python/distracted")
 def distracted(topics: List[List[str]]):
