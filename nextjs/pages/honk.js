@@ -5,6 +5,7 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 
+import {useRouter} from "next/router";
 
 export default function Start() {
   // TODO - make a theme file
@@ -13,6 +14,8 @@ export default function Start() {
   const accentColor= '#EE9F29';
   const complementColor= "#187589";
   const focusedColor= '#C9841D';
+
+  const router = useRouter();
 
   // TODO - integrate webcams 
   // TODO - actually integrate selected topic and times
@@ -55,6 +58,7 @@ export default function Start() {
               Are you <br/> focused?
             </Heading>
 
+            {/* TODO - add functionality to the buttons */}
             <HStack spacing={4}>
               <Button
                 px={8}
