@@ -8,7 +8,9 @@
     "128": "honk_logo.png"
   },
   "action": {
-    "default_title": "Join a Honk session!"
+    "default_title": "Join a Honk session!",
+    "default_icon": "honk_logo.png",
+    "default_popup": "index.html"
   },
   "content_scripts": [
     {
