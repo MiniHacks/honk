@@ -10,6 +10,10 @@ class Element(BaseModel):
     content: str
     header: Optional[str] = ""
 
+class Body(BaseModel):
+    element: Element
+    previous_embedding_str: str = ""
+
 """
 from yake import KeywordExtractor
 yake_params = {
@@ -40,10 +44,10 @@ async def root():
 
 @app.get("/python/embeddings")
 @app.post("/python/embeddings")
-def topics(element: Element, previous_embedding_str: str=""):
-    title = element.title
-    content = element.content
-    header = element.header
+def topics(body: Body):
+    title = body.element.title
+    content = body.element.content
+    header = body.element.header
     full_text = title + header + content
     """
     # ==== YAKE! ====
@@ -83,21 +87,11 @@ def topics(element: Element, previous_embedding_str: str=""):
     new_embedding = np.hstack((title_embedding, text_embedding))
     embed_string = json.dumps(new_embedding.tolist())
 
-    if not previous_embedding_str:
+    if not body.previous_embedding_str:
         return { "focused": True, "embed_string": embed_string }
 
-    previous_embedding = np.array(json.loads(previous_embedding_str))
+    previous_embedding = np.array(json.loads(body.previous_embedding_str))
     similarity = np.dot(new_embedding, previous_embedding)
     focused = similarity > 0.5
 
     return { "focused": focused, "embed_string": embed_string }
-
-@app.get("/python/distracted")
-@app.post("/python/distracted")
-def distracted(embedding_strs: List[(str, int)]):
-    embeddings = map(lambda x: np.array(json.loads(x[0])), embedding_strs) 
-    for a in embeddings:
-        for b in embeddings:
-            print(np.dot(a,b), end="")
-        print()
-    return random() > 0.3
