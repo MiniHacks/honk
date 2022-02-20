@@ -4,6 +4,11 @@ import { useEffect, useState } from "react";
 import PageLayout from "../components/Layout/PageLayout";
 import { useUser } from "../context/userContext";
 
+import { Flex, Container } from '@chakra-ui/react';
+import Hero from '../components/hero';
+import Section from '../components/sections/section';
+import Section_Features from '../components/sections/features';
+
 export default function Home() {
     const [socket, setSocket] = useState(null);
 
@@ -18,6 +23,23 @@ export default function Home() {
         // You also have your firebase app initialized
     }, [loadingUser, user]);
 
+    
+    return (
+        <Container minW="full" p={0}>
+            <Flex
+            h={{ base: 'auto', md: '100vh' }}
+            py={[0, 10, 5]}
+            direction={'column'}
+            >
+            <Hero />
+            <Section />
+            <Section_Features />
+            </Flex>
+        </Container>
+    )
+
+
+    /*
     useEffect(() => {
         const newSocket = io("/express/socket.io");
         setSocket(newSocket);
@@ -33,4 +55,5 @@ export default function Home() {
             </VStack>
         </PageLayout>
     );
+    */
 }
