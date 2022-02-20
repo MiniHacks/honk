@@ -9,7 +9,8 @@ const Section_Features = () => {
   return (
     <Container minW="full">
       <Container py={20} maxW='container.lg'>
-        <HStack mb={16} spacing={6} justifyContent="space-around">
+        <HStack mb={16} spacing={6} justifyContent="space-space-between">
+
           {/* item */}
           <VStack p={8} boxShadow='xl' borderRadius="2xl" bg="#EE9F29">
             <AspectRatio ratio={1} w={28}>
@@ -17,11 +18,26 @@ const Section_Features = () => {
                   src="./images/honk.png"
                   alt="goose" />
             </AspectRatio>
-            <Heading color="white" my={2} size="md">
-              Many Geese
+            <Heading textAlign="center" color="white" my={2} size="md">
+              Simple Studying
             </Heading>
-            <Text color={"gray.100"}>
-              whack
+            <Text textAlign="center" color={"gray.100"}>
+              stay focused
+            </Text>
+          </VStack>
+
+          {/* item */}
+          <VStack p={8} boxShadow='xl' borderRadius="2xl" bg="#FFD494">
+            <AspectRatio ratio={1} w={28}>
+              <Image
+                  src="./images/honk.png"
+                  alt="goose" />
+            </AspectRatio>
+            <Heading color={"gray.800"} my={2} size="md">
+              Accountability
+            </Heading>
+            <Text textAlign="center" color={"gray.700"}>
+              with a goose and/or buddy
             </Text>
           </VStack>
 
@@ -32,28 +48,15 @@ const Section_Features = () => {
                   src="./images/honk.png"
                   alt="goose" />
             </AspectRatio>
-            <Heading color="white" my={2} size="md">
-              Cute Boys
+            <Heading textAlign="center" color="white" my={2} size="md">
+              Really Cute Geese
             </Heading>
             <Text color={"gray.100"}>
-              who are geese
+              yeah
             </Text>
           </VStack>
-
-          {/* item */}
-          <VStack p={8} boxShadow='xl' borderRadius="2xl" bg="#EE9F29">
-            <AspectRatio ratio={1} w={28}>
-              <Image
-                  src="./images/honk.png"
-                  alt="goose" />
-            </AspectRatio>
-            <Heading color="white" my={2} size="md">
-              Okay CSS
-            </Heading>
-            <Text color={"gray.100"}>
-              help
-            </Text>
-          </VStack>
+          
+          <Heading textAlign="right">Features of Honk!</Heading>
         </HStack>
       </Container>
     </Container>

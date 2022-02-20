@@ -8,8 +8,8 @@ async function getVectors(user) {
     col.docs.forEach( doc => {
 
         // 5 minutes in miliseconds.
-        if(time - doc.data()['timestamp'] > 1000 * 60 * 5) {
-            // doc.ref.delete()
+        if(time - doc.data()['timestamp'] > 1000 * 60 * 1) {
+            doc.ref.delete()
             // console.log("deleted")
         } else {
             arr.push(doc.data())
@@ -24,7 +24,9 @@ async function getPreviousVector(user) {
     let timestamp = -1;
     let vector = null
     topics.forEach(topic => {
+        console.log(topic)
         if(topic['timestamp'] > timestamp) {
+            timestamp = topic['timestamp']
             vector = topic['vector']
         }
     })
@@ -60,7 +62,7 @@ export default async function isdistracted(req, res) {
 
     let data = await response.json();
     let newVec = data['embed_string']
-    let distracted = data['focused']
+    let distracted = !data['focused']
     let topics = data['keywords']
 
     await addTopics(user, topics);

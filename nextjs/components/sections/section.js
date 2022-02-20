@@ -20,20 +20,21 @@ const Section = () => {
               {/* Hero Title, Caption, Buttons */}
               <Stack py={10} maxW='90%'>
                 <Heading my={4} size="lg">
-                  The Future of Geese
+                  How Does Honk! Work?
                 </Heading>
                 <Text color={secondaryTextColor}>
-                  This is where some generic text goes;
-                  check out how socially good our app is.
-                  It can save the world somehow even
-                  though it only took us 24 hours to make
-                  it!
+                  Begin a study session with Honk!,
+                  choosing to either study solo or 
+                  to study with a friend.
+
+                  - If you get distracted while studying,
+                  Honk! holds you accountable by viewing
+                  your browser and detecting pivots from
+                  studying.
                 </Text>
                 <Text color={secondaryTextColor}>
-                  Please love our web app—I had to sleep
-                  in Keller Hall to get it finished, and I
-                  am slowly going off the rails. Though,
-                  maybe that's a good thing?
+                  Furthermore, Honk! also provides statistics about
+                  your time focused and your total time studied.
                 </Text>
               </Stack>
             </VStack>

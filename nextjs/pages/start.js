@@ -34,7 +34,7 @@ export default function Start() {
           <Button
             alignSelf={"flex-end"}
             bg={accentColor}
-            onClick={()=>{router.push("/session_duo");}}
+            onClick={()=>{router.push("/session_solo");}}
             color={'white'} w={"full"} py={8}
             size='md' fontSize="2xl"
             _hover={{ bg: focusedColor}}
@@ -46,7 +46,7 @@ export default function Start() {
           <Button
             alignSelf={"flex-end"}
             borderColor={complementColor}
-            onClick={()=>{router.push("/session_solo");}}
+            onClick={()=>{router.push("/session_duo");}}
             color={complementColor}
             variant={"outline"} w={"full"} py={8}
             size='md' fontSize="2xl"
