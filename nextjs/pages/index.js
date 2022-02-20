@@ -1,14 +1,23 @@
 import io from "socket.io-client";
-import { Button, Heading, VStack } from "@chakra-ui/react";
+import { Heading, VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import PageLayout from "../components/Layout/PageLayout";
-import { useSession, signOut, signIn } from "next-auth/react";
+import { useUser } from "../context/userContext";
 
 export default function Home() {
     const [socket, setSocket] = useState(null);
-    const [messages, setMessages] = useState([]);
 
-    const { data: session, status } = useSession();
+    // Our custom hook to get context values
+    const { loadingUser, user } = useUser();
+
+    useEffect(() => {
+        if (!loadingUser) {
+            // You know that the user is loaded: either logged in or out!
+            console.log(user);
+        }
+        // You also have your firebase app initialized
+    }, [loadingUser, user]);
+
     useEffect(() => {
         const newSocket = io("/express/socket.io");
         setSocket(newSocket);
@@ -17,28 +26,10 @@ export default function Home() {
 
         return () => newSocket.close();
     }, []);
-
-    let LoginButton = <></>;
-    if (status === "authenticated") {
-        LoginButton = (
-            <Button colorScheme={"blue"} variant={"solid"} onClick={() => signOut()}>
-                Log Out as {session.user.email}
-            </Button>
-        );
-    } else if (status === "unauthenticated") {
-        LoginButton = (
-            <Button colorScheme={"blue"} variant={"solid"} onClick={() => signIn("google")}>
-                Log In
-            </Button>
-        );
-    }
     return (
         <PageLayout>
-            <VStack justifyContent={"center"} alignItems={"center"} minH={"100vh"} bg={"green.300"}>
-                {LoginButton}
-                <Heading>Messages:</Heading>
-                {!messages.length && <pre>Connecting to socket...</pre>}
-                <pre>{JSON.stringify(messages, null, 4)}</pre>
+            <VStack justifyContent={"center"} alignItems={"center"} minH={"100vh"} bg={"pink.300"}>
+                <Heading>Hello, world!</Heading>
             </VStack>
         </PageLayout>
     );

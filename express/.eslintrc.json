@@ -70,18 +70,18 @@
   ],
   "root": true,
   "rules": {
-    "@next/next/link-passhref": "error",
-    "@next/next/next-script-for-ga": "error",
-    "@next/next/no-html-link-for-pages": "error",
+    "@next/next/link-passhref": 1,
+    "@next/next/next-script-for-ga": 1,
+    "@next/next/no-html-link-for-pages": 1,
     "@next/next/no-img-element": "off",
-    "@next/next/no-sync-scripts": "error",
-    "@typescript-eslint/explicit-module-boundary-types": "error",
-    "@typescript-eslint/no-explicit-any": "error",
-    "@typescript-eslint/no-unused-vars": "error",
+    "@next/next/no-sync-scripts": 1,
+    "@typescript-eslint/explicit-module-boundary-types": 1,
+    "@typescript-eslint/no-explicit-any": 1,
+    "@typescript-eslint/no-unused-vars": 1,
     "@typescript-eslint/no-var-requires": "off",
     "arrow-body-style": "off",
     "import/no-import-module-exports": [
-      "error",
+      1,
       {
         "exceptions": [
           "**/*/store.js"
@@ -89,45 +89,35 @@
       }
     ],
     "import/prefer-default-export": "off",
-    "max-lines": "error",
+    "max-lines": 1,
     "max-lines-per-function": [
-      "error",
+      1,
       {
         "max": 60,
         "skipBlankLines": true,
         "skipComments": true
       }
     ],
-    "no-alert": "error",
-    "no-console": "error",
+    "no-alert": 1,
     "no-plusplus": [
-      "error",
+      1,
       {
         "allowForLoopAfterthoughts": true
       }
     ],
     "no-underscore-dangle": "off",
-    "prettier/prettier": "error",
+    "prettier/prettier": 1,
     "react/function-component-definition": "off",
     "react/jsx-curly-brace-presence": [
-      "error",
+      1,
       {
         "props": "always",
         "children": "never"
       }
     ],
-    "react/jsx-filename-extension": [
-      2,
-      {
-        "extensions": [
-          ".tsx",
-          ".jsx"
-        ]
-      }
-    ],
     "react/jsx-no-bind": "off",
     "react/jsx-props-no-spreading": "off",
-    "react/no-danger": "error",
+    "react/no-danger": 1,
     "react/prop-types": "off",
     "react/react-in-jsx-scope": "off",
     "react/require-default-props": "off",
