@@ -48,17 +48,14 @@ async function addTopics(user, topics) {
 
 export default async function isdistracted(req, res) {
     let user = "c5KKbUvTRO77uXpdEA5Q" // req.body['user']
-    console.log(Object.keys(req));
-    console.log(req.body)
+    //console.log(Object.keys(req));
+    //console.log(req.body)
     let ele = JSON.parse(req.body)
     let previous = JSON.stringify(await getPreviousVector(user))
 
-    console.log("Request Contents:")
-    // console.log("Elements: ", ele);
-    // console.log("Previous: ",  previous)
     let response = await fetch("http://localhost:5001/python/embeddings", {headers: {"Content-Type":"application/json"}, method: "POST", body: JSON.stringify({
         element: ele,
-        previous_embedding_string: previous
+        previous_embedding_str: previous || ""
     })});
 
     let data = await response.json();
@@ -71,6 +68,5 @@ export default async function isdistracted(req, res) {
     if (distracted) {
         data['distracted_by'] = topics[0]
     }
-    console.log(Object.keys(data));
     res.status(200).json(Object.keys(data));
 }
