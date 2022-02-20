@@ -1,6 +1,12 @@
 from fastapi import FastAPI
 from random import choice, random
-from typing import List
+from typing import List, Optional
+from pydantic import BaseModel
+
+class Element(BaseModel):
+    title: str
+    content: str
+    header: Optional[str] = ""
 
 from yake import KeywordExtractor
 yake_params = {
@@ -21,7 +27,10 @@ async def root():
     return {"message": "Hello World"}
 
 @app.get("/python/topics")
-def topics(title: str, content: str, header: str = ""):
+def topics(element: Element):
+    title = element.title
+    content = element.content
+    header = element.header
     full_text = title + header + content
     # ==== YAKE! ====
     print("==== YAKE! ====")
@@ -34,7 +43,7 @@ def topics(title: str, content: str, header: str = ""):
     print("==== SpaCy =====")
     #doc = nlp(full_text)
     #ents = doc.ents
-    print(f"{ents=}")
+    #print(f"{ents=}")
 
     # ==== Processing ====
     yake_phrases = list(map(lambda x: x[1], filter(lambda x: x[0] < 0.1, phrase_extractor.extract_keywords(full_text))))
