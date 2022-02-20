@@ -63,7 +63,7 @@ export default async function isdistracted(req, res) {
     // let data = response.json();
     let newVec = [0.2, 0.4, 0.01, 0.32222] // data['vector']
     let distracted = true // data['distracted']
-    let topics = ['geese boys', 'yotsuba'] // data['topics']
+    let topics = ['geese boys', 'yotsuba'] // data['keywords']
 
     addTopics(user, topics)
     addVector(user, newVec)
