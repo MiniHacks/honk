@@ -1,23 +1,14 @@
 {
-  "name": "Fresh Chrome Extension",
-  "description": "Fully functional, useful bare minimum Google Chrome extension boilerplate [Manifest V3].",
-  "homepage_url": "https://github.com/llagerlof/fresh-chrome-extension",
+  "name": "Honk Work",
+  "description": "Fully functional, useful bare Google Chrome extension to keep you focused.",
+  "homepage_url": "https://honk.work",
   "version": "2.0.0",
   "manifest_version": 3,
   "action": {
-    "default_title": "execute.js will run (watch the Chrome DevTools' console)"
+    "default_title": "Join a Honk session!"
   },
   "content_scripts": [
     {
-      "run_at" : "document_start",
-      "js": ["before.js"],
-      "matches": [
-        "https://*/*",
-        "http://*/*"
-      ]
-    },
-    {
-      "run_at" : "document_idle",
       "js": ["after.js"],
       "matches": [
         "https://*/*",
