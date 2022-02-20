@@ -1,16 +1,16 @@
 import admin from '../../firebase/nodeApp'
 const db = admin.firestore()
 
-async function gettopics(user) {
-    let col = await db.collection('/users/'+user+'/topics').get();
+async function getVectors(user) {
+    let col = await db.collection('/users/'+user+'/vectors').get();
     let arr = []
     let time = new Date()
     col.docs.forEach( doc => {
         
         // 5 minutes in miliseconds.
         if(time - doc.data()['timestamp'] > 1000 * 60 * 5) {
-            doc.ref.delete()
-            console.log("deleted")
+            // doc.ref.delete()
+            // console.log("deleted")
         } else {
             arr.push(doc.data())
         }
@@ -19,7 +19,7 @@ async function gettopics(user) {
 }
 
 async function getPreviousVector(user) {
-    let topics = await gettopics(user)
+    let topics = await getVectors(user)
 
     let timestamp = -1;
     let vector = null
@@ -33,9 +33,16 @@ async function getPreviousVector(user) {
 }
 
 async function addVector(user, vector) {
-    return await db.collection('/users/'+user+'/topics').add({
+    return await db.collection('/users/'+user+'/vectors').add({
         timestamp: Date.now(),
         vector: vector
+    })
+}
+
+async function addTopics(user, topics) {
+    return await db.collection('/users/'+user+'/topics').add({
+        timestamp: Date.now(),
+        topics: topics
     })
 }
 
@@ -56,7 +63,14 @@ export default async function isdistracted(req, res) {
     // let data = response.json();
     let newVec = [0.2, 0.4, 0.01, 0.32222] // data['vector']
     let distracted = true // data['distracted']
+    let topics = ['geese boys', 'yotsuba'] // data['topics']
 
-    addVector(user, newVec);
-    res.status(200).json({ distracted: distracted});
+    addTopics(user, topics)
+    addVector(user, newVec)
+    let data = { distracted: distracted }
+    if (distracted) {
+        data['distracted_by'] = topics[0] 
+    }
+
+    res.status(200).json(data);
 }
