@@ -1,0 +1,33 @@
+{
+  "name": "Honk Work",
+  "description": "Fully functional, useful bare Google Chrome extension to keep you focused.",
+  "homepage_url": "https://honk.work",
+  "version": "2.0.0",
+  "manifest_version": 3,
+  "icons": {
+    "128": "honk_logo.png"
+  },
+  "action": {
+    "default_title": "Join a Honk session!"
+  },
+  "content_scripts": [
+    {
+      "js": ["after.js"],
+      "matches": [
+        "https://*/*",
+        "http://*/*"
+      ]
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "tabs",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://*/*",
+    "http://*/*"
+  ]
+}
