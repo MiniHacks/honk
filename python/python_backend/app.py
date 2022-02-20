@@ -40,7 +40,7 @@ async def root():
 
 @app.get("/python/embeddings")
 @app.post("/python/embeddings")
-def topics(element: Element):
+def topics(element: Element, previous_embedding_str: str):
     title = element.title
     content = element.content
     header = element.header
@@ -77,11 +77,17 @@ def topics(element: Element):
 
     return list(set(yake_phrases + yake_words))#+ ents))
     """
-    title_embeds = model.encode(title)
-    text_embeds = model.encode(full_text)
-    embeds = np.hstack((title_embeds, text_embeds))
-    return json.dumps(embeds.tolist())
+    title_embedding = model.encode(title)
+    text_embedding = model.encode(full_text)
 
+    new_embedding = np.hstack((title_embedding, text_embedding))
+    previous_embedding = np.array(json.loads(previous_embedding_str))
+
+    similarity = np.dot(new_embedding, previous_embedding)
+    focused = similarity > 0.5
+
+    embed_string = json.dumps(new_embedding.tolist())
+    return { "embed_string": embed_string, "focused": focused }
 
 @app.get("/python/distracted")
 @app.post("/python/distracted")
