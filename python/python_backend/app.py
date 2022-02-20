@@ -20,7 +20,10 @@ import spacy
 nlp = spacy.load("en_core_web_trf")
 
 from sentence_transformers import SentenceTransformer
-mp_model = SentenceTransformer('sentence-transformers/all-mpnet-base-v1')
+mpnet_model = SentenceTransformer('sentence-transformers/paraphrase-mpnet-base-v2')
+mini_all_model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
+mini_para_model = SentenceTransformer('sentence-transformers/paraphrase-MiniLM-L6-v2')
+
 
 app = FastAPI()
 phrase_extractor = KeywordExtractor(n=3, **yake_params)
@@ -51,10 +54,12 @@ def topics(element: Element):
 
     # ==== HuggingFace ====
     print("==== HuggingFace ====")
-    title_embeds = mp_model.encode(title)
-    text_embeds = mp_model.encode(full_text)
-    print(f"{title_embeds=}")
-    print(f"{text_embeds=}")
+    mpnet_title_embeds = mpnet_model.encode(title)
+    mpnet_text_embeds = mpnet_model.encode(full_text)
+    mini_all_title_embeds = mini_all_model.encode(title)
+    mini_all_text_embeds = mini_all_model.encode(full_text)
+    mini_para_title_embeds = mini_para_model.encode(title)
+    mini_para_text_embeds = mini_para_model.encode(full_text)
 
     # ==== Processing ====
     print("==== Processing =====")
