@@ -21,7 +21,7 @@ nlp = spacy.load("en_core_web_trf")
 
 from sentence_transformers import SentenceTransformer
 mpnet_model = SentenceTransformer('sentence-transformers/paraphrase-mpnet-base-v2')
-mini_all_model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
+mini_all_model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2') # probably the strongest
 mini_para_model = SentenceTransformer('sentence-transformers/paraphrase-MiniLM-L6-v2')
 
 
