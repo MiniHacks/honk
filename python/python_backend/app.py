@@ -15,8 +15,8 @@ yake_params = {
     "top": 10
 }
 
-#import spacy
-#nlp = spacy.load("en_core_sci_lg")
+import spacy
+nlp = spacy.load("en_core_web_trf")
 
 app = FastAPI()
 phrase_extractor = KeywordExtractor(n=3, **yake_params)
@@ -41,13 +41,14 @@ def topics(element: Element):
 
     # ==== SpaCy ====
     print("==== SpaCy =====")
-    #doc = nlp(full_text)
-    #ents = doc.ents
-    #print(f"{ents=}")
+    doc = nlp(full_text)
+    ents = doc.ents
+    print(f"{ents=}")
 
     # ==== Processing ====
-    yake_phrases = list(map(lambda x: x[1], filter(lambda x: x[0] < 0.1, phrase_extractor.extract_keywords(full_text))))
-    yake_words = list(map(lambda x: x[1], filter(lambda x: x[0] < 0.1, word_extractor.extract_keywords(full_text))))
+    print("==== Processing =====")
+    yake_phrases = list(map(lambda x: x[0], filter(lambda x: x[1] < 0.1, phrase_extractor.extract_keywords(full_text))))
+    yake_words = list(map(lambda x: x[0], filter(lambda x: x[1] < 0.1, word_extractor.extract_keywords(full_text))))
     print(f"processed {yake_phrases=}")
     print(f"processed {yake_words=}")
 
