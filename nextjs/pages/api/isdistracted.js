@@ -8,8 +8,8 @@ async function getVectors(user) {
     col.docs.forEach( doc => {
 
         // 5 minutes in miliseconds.
-        if(time - doc.data()['timestamp'] > 1000 * 60 * 5) {
-            // doc.ref.delete()
+        if(time - doc.data()['timestamp'] > 1000 * 60 * 1) {
+            await doc.ref.delete()
             // console.log("deleted")
         } else {
             arr.push(doc.data())
@@ -56,7 +56,7 @@ export default async function isdistracted(req, res) {
     console.log("Request Contents:")
     // console.log("Elements: ", ele);
     // console.log("Previous: ",  previous)
-    let response = await fetch("http://localhost:5001/python/embeddings", {headers: {"Content-Type":"application/json"}, method: "POST", body: JSON.stringify({
+    let response = await fetch("http://localhost:8000/python/embeddings", {headers: {"Content-Type":"application/json"}, method: "POST", body: JSON.stringify({
         element: ele,
         previous_embedding_string: previous
     })});
