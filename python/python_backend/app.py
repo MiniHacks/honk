@@ -40,7 +40,7 @@ app = FastAPI()
 
 @app.get("/python/")
 async def root():
-    return {"message": "Hello World"}
+    return {"message": "HONK!"}
 
 @app.get("/python/embeddings")
 @app.post("/python/embeddings")
