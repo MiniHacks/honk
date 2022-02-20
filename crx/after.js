@@ -14,7 +14,6 @@ function getText() {
     header: document.querySelector("h1")?.innerText,
     content: document.querySelector("body")?.innerText
   };
-
   fetch("http://localhost:5001/api/isdistracted", {
     header: {"Content-Type": "application/json"},
     method: "POST",
