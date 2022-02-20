@@ -63,7 +63,7 @@ export default async function isdistracted(req, res) {
 
     let data = await response.json();
     let newVec = data['embed_string']
-    let distracted = data['focused']
+    let distracted = !data['focused']
     let topics = data['keywords']
 
     await addTopics(user, topics);
