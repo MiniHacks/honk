@@ -39,6 +39,7 @@ async def root():
     return {"message": "Hello World"}
 
 @app.get("/python/embeddings")
+@app.post("/python/embeddings")
 def topics(element: Element):
     title = element.title
     content = element.content
@@ -83,5 +84,11 @@ def topics(element: Element):
 
 
 @app.get("/python/distracted")
-def distracted(topics: List[List[str]]):
+@app.post("/python/distracted")
+def distracted(embedding_strs: List[(str, int)]):
+    embeddings = map(lambda x: np.array(json.loads(x[0])), embedding_strs) 
+    for a in embeddings:
+        for b in embeddings:
+            print(np.dot(a,b), end="")
+        print()
     return random() > 0.3
