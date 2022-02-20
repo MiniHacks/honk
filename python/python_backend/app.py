@@ -34,5 +34,5 @@ def topics(title: str, header: str, content: str):
     return list(set(yake_phrases + yake_words))
 
 @app.get("/distracted")
-def distracted(topics: List[str]):
+def distracted(topics: List[List[str]]):
     return random() > 0.3
