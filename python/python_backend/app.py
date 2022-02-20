@@ -4,6 +4,7 @@ from typing import List, Optional
 from pydantic import BaseModel
 import json
 import numpy as np
+from keybert import KeyBERT
 
 class Element(BaseModel):
     title: str
@@ -31,6 +32,18 @@ nlp = spacy.load("en_core_web_trf")
 
 from sentence_transformers import SentenceTransformer
 model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
+
+from keybert import KeyBERT
+kw_model = KeyBERT(model=model)
+kw_params = {
+    "keyphrase_ngram_range": (1,3),
+    "stop_words": 'english',
+    "nr_candidates": 20,
+    "top_n": 8,
+    "use_maxsum": True,
+    "use_mmr": True,
+    "diversity": 0.7
+}
 """
 mpnet_model = SentenceTransformer('sentence-transformers/paraphrase-mpnet-base-v2')
 mini_para_model = SentenceTransformer('sentence-transformers/paraphrase-MiniLM-L6-v2')
@@ -56,7 +69,9 @@ def topics(body: Body):
         return not any([noise in word for noise in noise_words])
 
     keywords = extractor.extract_keywords(full_text)
-    keywords = list(filter(is_valid_keyword, keywords))
+    keywords = list(filter(is_valid_keyword, map(lambda x: x[0], keywords)))
+
+    print(kw_model.extract_keywords(full_text, **kw_params))
     print(f"{keywords=}")
     """
     # ==== YAKE! ====
