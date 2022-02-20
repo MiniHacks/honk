@@ -15,7 +15,7 @@ export default function Start() {
 
   return (
     <Container display="flex" justifyContent="center">
-      <VStack my={10} w="fit-content" display="flex">
+      <VStack textAlign={"center"}  my={10} w="fit-content" display="flex">
         {/* Logo, Title, Subtitle */}
         <AspectRatio my={2} ratio={1} w={24}>
           <Image 
@@ -24,23 +24,11 @@ export default function Start() {
           />
         </AspectRatio>
         <Heading size="4xl">
-          Honk!
+          I want to study...
         </Heading>
         <Heading color={textColor} fontWeight="regular" size="lg">
-          Focused, Friendly Learning.
+          This is a test
         </Heading>
-
-        {/* Phone Number Input */}
-        <Container p={0} mb={10} w="full">
-        <Text py={3}
-          fontSize="lg" fontWeight="semibold"
-          mt={10} alignSelf={"flex-start"}
-        >
-          Enter Your Phone Number
-        </Text>
-        <Input mb={4}
-          placeholder={"763-123-456"} w={"full"} />
-        </Container>
         
         <Button
           alignSelf={"flex-end"}
@@ -54,16 +42,19 @@ export default function Start() {
           Log In
         </Button>
 
-        <Link
-          py={4} fontSize="lg"
-          color={textColor}
-          textDecoration="underline"
-          _hover={{ color: complementColor }}
+        <Button
+          alignSelf={"flex-end"}
+          variant={"outline"}
+          color={}
+          my={10} px={8}
+          size='md' fontSize="lg"
+          _hover={{ color: "white", bg: accentColor}}
+          _focus={{ ring: 3, ringColor: "orange.200" }}
         >
-          (Or enter a room link if you have one!)
-        </Link>
+          Log In
+        </Button>
+
       </VStack>
     </Container>
-
   )
 } 
