@@ -1,6 +1,7 @@
 {
   "mongodb": {
     "command": "docker-compose up mongodb",
+    "install": "echo \"\n\n\n\n\t\tPlease install Docker and docker-compose.\n\n\"",
     "color": "green"
   },
   "nextjs": {
@@ -14,5 +15,17 @@
     "command": "yarn dev",
     "install": "yarn",
     "color": "purple"
+  },
+  "python": {
+    "path": "python/",
+    "command": "python3 -m venv venv/ && source venv/bin/activate && python3 -m python_backend",
+    "install": "python3 -m venv venv/ && source venv/bin/activate && pip3 install -r requirements.txt",
+    "color": "yellow"
+  },
+  "caddy": {
+    "path": "infra/",
+    "command": "caddy start --config Caddyfile.dev",
+    "install": "echo \"\n\n\n\n\t\tPlease install Caddy from https://caddyserver.com.\n\n\"",
+    "color": "red"
   }
 }
