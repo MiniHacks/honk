@@ -1,9 +1,8 @@
 import {
-  Heading, Text, Link,
+  Heading,
   VStack, Container,
   Image, AspectRatio,
-  Input, Button, HStack,
-  useClipboard,
+  Button, useClipboard,
 } from '@chakra-ui/react';
 import React from 'react';
 import { CopyIcon } from '@chakra-ui/icons';

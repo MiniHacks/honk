@@ -1,12 +1,9 @@
 import {
-  Heading, Text, Link, Box,
+  Heading, Text, Box,
   VStack, Container,
-  Image, AspectRatio,
-  Input, Button, HStack,
-  useClipboard,
+  Button, HStack,
 } from '@chakra-ui/react';
 import React from 'react';
-import { CopyIcon } from '@chakra-ui/icons';
 
 
 export default function Start() {
@@ -17,37 +14,54 @@ export default function Start() {
   const complementColor= "#187589";
   const focusedColor= '#C9841D';
 
-
   // TODO - integrate webcams 
   // TODO - actually integrate selected topic and times
   let [topic, setTopic] = React.useState("Databases");
   let [timeFocused, setTimeFocused] = React.useState("00:32:12");
   let [totalTime, setTotalTime] = React.useState("03:13:17");
+  let [topicMin, setTopicMin] = React.useState("43");
 
   return (
     <Container maxWidth={500} display="flex" justifyContent="center">
       <VStack my={10} w="fit-content">
-        <HStack mb={5}
+        {/* really gross header */}
+        <HStack
+          mb="2"
           minWidth="full"
           justifyContent={"space-between"}
         >
-          <Heading size="lg">
-            Topic: {" "}
-            <Box
-              as="span"
-              color={complementColor}
-              mr="10"
+          <VStack>
+            <Heading size="lg">
+              Topic: {" "}
+              <Box
+                as="span"
+                color={complementColor}
+                mr="10"
+              >
+                {topic}
+              </Box>
+            </Heading>
+            <HStack 
+              mt="0px !important"
+              minWidth="full"
+              color={textColor}
+              justifyContent={"flex-start"}
             >
-              {topic}
-            </Box>
-          </Heading>
+              <Text
+                my="0px !important"
+                color={textColor}
+              >
+                Topic started {topicMin} minutes ago.
+              </Text>
+            </HStack>
+          </VStack>
           <Button
             bg={accentColor}
-            h="full"
+            h="100%"
             color={'white'}
             size='md'
             mx="2"
-            fontSize="sm"
+            fontSize="md"
             _hover={{ bg: focusedColor}}
             _focus={{ ring: 3, ringColor: "orange.200" }}
           >
@@ -55,6 +69,7 @@ export default function Start() {
           </Button>
         </HStack>
 
+        {/* webcam placeholders */}
         <Container
           mb={"14px !important"}
           display="flex"
@@ -78,6 +93,7 @@ export default function Start() {
           This is where the webcams would go.
         </Container>
 
+        {/* stats */}
         <HStack mt={"14px !important"}
           minWidth="full"
           color={textColor}
@@ -91,7 +107,6 @@ export default function Start() {
             Total Time: {" "} {totalTime}
           </Text>
         </HStack>
-
       </VStack>
     </Container>
   )
