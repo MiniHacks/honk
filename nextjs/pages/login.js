@@ -68,7 +68,7 @@ export default function Start() {
   //   }, auth);
   // }, [])
   return (
-    <Container display="flex" justifyContent="center">
+    <Container maxWidth={500} display="flex" justifyContent="center">
       <VStack textAlign={"center"} my={10} w="fit-content" display="flex">
         {/* Logo, Title, Subtitle */}
         <AspectRatio my={2} ratio={1} w={24}>
