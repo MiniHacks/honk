@@ -4,6 +4,8 @@ import {AsYouTypeFormatter, PhoneNumberUtil, PhoneNumberFormat as PNF} from 'goo
 import {getAuth, RecaptchaVerifier, signInWithPhoneNumber} from "firebase/auth";
 import {useCallback, useState} from "react";
 import {createFirebaseApp} from "../firebase/clientApp";
+import {useUser} from "../context/userContext";
+import {useRouter} from "next/router";
 const parse = n => {
   const phoneUtil = new PhoneNumberUtil.getInstance();
   const number = phoneUtil.parseAndKeepRawInput(n, "US");
@@ -20,11 +22,24 @@ export default function Start() {
   const [phoneNum, setPhoneNum] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [formatter, setFormatter] = useState(new AsYouTypeFormatter("US"))
-  
+  const [confirmation, setConfrimation] = useState(false);
+  const [code, setCode] = useState("")
   const app = createFirebaseApp()
   const auth = getAuth(app)
+
+
+  const { loadingUser, user } = useUser();
+  const router = useRouter();
+  if(user) {
+    router.replace("/start");
+  }
   const onSubmit = useCallback(async () => {
     // if(!allowSignIn) return false;
+    if(confirmation){
+      const result = await window.confirmationResult.confirm(code);
+      console.log(result);
+      return;
+    }
     setIsLoading(true)
     const appVerifier = new RecaptchaVerifier('sign-in-button', {
       'size': 'invisible',
@@ -38,9 +53,9 @@ export default function Start() {
     // SMS sent. Prompt user to type the code from the message, then sign the
     // user in with confirmationResult.confirm(code).
     window.confirmationResult = confirmationResult;
-
+    setConfrimation(true)
     console.log(confirmationResult)
-  }, [phoneNum])
+  }, [phoneNum, code, confirmation])
   // useEffect(() => {
   //   console.log("CALLBACK listener")
   //   window.recaptchaVerifier = new RecaptchaVerifier('sign-in-button', {
@@ -70,7 +85,7 @@ export default function Start() {
         </Heading>
 
         {/* Phone Number Input */}
-        <Container p={0} mb={10} w="full">
+        {!confirmation && <Container p={0} mb={10} w="full">
           <Text py={3}
                 fontSize="lg" fontWeight="semibold"
                 mt={10} textAlign={"left"}
@@ -83,7 +98,23 @@ export default function Start() {
           }}
                  value={phoneNum}
                  placeholder={"763-123-4568"} w={"full"}/>
+
+
         </Container>
+        }
+        {confirmation &&  <Container p={0} mb={10} w="full">
+          <Text py={3}
+                fontSize="lg" fontWeight="semibold"
+                mt={10} textAlign={"left"}
+          >
+            Enter Your Security Code
+          </Text>
+          <Input mb={4} onChange={e => setCode(e.currentTarget.value)}
+                 value={code}
+                 placeholder={"123456"} w={"full"}/>
+
+        </Container>
+        }
 
         <Button
           alignSelf={"flex-end"}
@@ -99,7 +130,6 @@ export default function Start() {
         >
           Log In
         </Button>
-
         <Link
           py={4} fontSize="lg"
           color={textColor}
