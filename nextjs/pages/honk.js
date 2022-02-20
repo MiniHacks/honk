@@ -19,8 +19,8 @@ export default function Start() {
 
   // TODO - integrate webcams 
   // TODO - actually integrate selected topic and times
-  let [topic, setTopic] = React.useState("Databases");
-  let [newTopic, setNewTopic] = React.useState("Cute Geese Boys");
+  let [topic, setTopic] = React.useState("Datamining");
+  let [newTopic, setNewTopic] = React.useState("Cusehacks 2022");
 
   // TODO - also format this cool stuff
   // 07:12:04 eg. 7 hours 12 minutes 4 seconds

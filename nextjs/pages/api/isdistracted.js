@@ -8,8 +8,8 @@ async function getVectors(user) {
     col.docs.forEach( doc => {
 
         // 5 minutes in miliseconds.
-        if(time - doc.data()['timestamp'] > 1000 * 60 * 5) {
-            // doc.ref.delete()
+        if(time - doc.data()['timestamp'] > 1000 * 60 * 1) {
+            doc.ref.delete()
             // console.log("deleted")
         } else {
             arr.push(doc.data())
@@ -24,7 +24,9 @@ async function getPreviousVector(user) {
     let timestamp = -1;
     let vector = null
     topics.forEach(topic => {
+        console.log(topic)
         if(topic['timestamp'] > timestamp) {
+            timestamp = topic['timestamp']
             vector = topic['vector']
         }
     })
@@ -48,17 +50,14 @@ async function addTopics(user, topics) {
 
 export default async function isdistracted(req, res) {
     let user = "c5KKbUvTRO77uXpdEA5Q" // req.body['user']
-    console.log(Object.keys(req));
-    // console.log(req.body)
+    //console.log(Object.keys(req));
+    //console.log(req.body)
     let ele = JSON.parse(req.body)
     let previous = JSON.stringify(await getPreviousVector(user))
 
-    console.log("Request Contents:")
-    // console.log("Elements: ", ele);
-    // console.log("Previous: ",  previous)
     let response = await fetch("http://localhost:5001/python/embeddings", {headers: {"Content-Type":"application/json"}, method: "POST", body: JSON.stringify({
         element: ele,
-        previous_embedding_string: previous
+        previous_embedding_str: previous || ""
     })});
 
     let data = await response.json();

@@ -20,11 +20,11 @@ export default function Start() {
   // TODO - integrate webcams 
   // TODO - actually integrate selected topic and times
   let [topic, setTopic] = React.useState("Databases");
-  let [timeFocused, setTimeFocused] = React.useState("0 hours 32 minutes 12 seconds");
-  let [timeDistracted, setTimeDistracted] = React.useState("2 hours 12 minutes 7 seconds");
-  let [totalTime, setTotalTime] = React.useState("2 hours 44 minutes 19 seconds");
+  let [timeFocused, setTimeFocused] = React.useState("0 hours 51 minutes 12 seconds");
+  let [timeDistracted, setTimeDistracted] = React.useState("1 hour 12 minutes 7 seconds");
+  let [totalTime, setTotalTime] = React.useState("2 hours 3 minutes 19 seconds");
   let [topicMin, setTopicMin] = React.useState("43");
-  let [percentFocused, setPercentFocused] = React.useState("-49%");
+  let [percentFocused, setPercentFocused] = React.useState("71%");
 
   // TODO - also format this cool stuff
   // 07:12:04 eg. 7 hours 12 minutes 4 seconds
