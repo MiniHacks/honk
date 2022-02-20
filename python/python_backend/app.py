@@ -40,7 +40,7 @@ async def root():
 
 @app.get("/python/embeddings")
 @app.post("/python/embeddings")
-def topics(element: Element, previous_embedding_str: str):
+def topics(element: Element, previous_embedding_str: str=""):
     title = element.title
     content = element.content
     header = element.header
@@ -81,13 +81,16 @@ def topics(element: Element, previous_embedding_str: str):
     text_embedding = model.encode(full_text)
 
     new_embedding = np.hstack((title_embedding, text_embedding))
-    previous_embedding = np.array(json.loads(previous_embedding_str))
+    embed_string = json.dumps(new_embedding.tolist())
 
+    if not previous_embedding_str:
+        return { "focused": True, "embed_string": embed_string }
+
+    previous_embedding = np.array(json.loads(previous_embedding_str))
     similarity = np.dot(new_embedding, previous_embedding)
     focused = similarity > 0.5
 
-    embed_string = json.dumps(new_embedding.tolist())
-    return { "embed_string": embed_string, "focused": focused }
+    return { "focused": focused, "embed_string": embed_string }
 
 @app.get("/python/distracted")
 @app.post("/python/distracted")
