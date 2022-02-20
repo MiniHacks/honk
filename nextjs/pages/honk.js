@@ -3,8 +3,8 @@ import {
   VStack, Container,
   Button, HStack, Image,
 } from '@chakra-ui/react';
-import React from 'react';
-
+import React, {useEffect} from 'react';
+import Head from "next/head";
 import {useRouter} from "next/router";
 
 export default function Start() {
@@ -27,9 +27,12 @@ export default function Start() {
 
   // TODO - also format this cool stuff
   // 07:12:04 eg. 7 hours 12 minutes 4 seconds
-
+  useEffect(() => {
+    fetch("/api/alertnumber")
+  }, [])
   return (
     <Container w="100%" minH="100vh" backgroundSize="cover" maxW="unset" bg={complementColor} >
+      <Head><title>Honk!!</title></Head>
       <Container
         color={"white"}
         maxWidth={500}

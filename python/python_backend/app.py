@@ -65,7 +65,7 @@ def topics(body: Body):
         return { "focused": True, "embed_string": embed_string, "keywords": keywords }
 
     # load the previous embedding from the string
-    previous_embedding = np.array(json.loads(json.loads(body.previous_embedding_str)), dtype='float32')
+    previous_embedding = np.array(json.loads(body.previous_embedding_str), dtype='float32')
     # compare the current and previous topic via bootleg cosine similarity
     similarity = np.dot(new_embedding, previous_embedding)
     # the embedding is not normalized, we could divide by 2 but >1 is more fun

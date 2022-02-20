@@ -17,7 +17,7 @@ export default function Start() {
 
   const router = useRouter();
 
-  // TODO - integrate webcams 
+  // TODO - integrate webcams
   // TODO - actually integrate selected topic and times
   let [topic, setTopic] = React.useState("Databases");
   let [timeFocused, setTimeFocused] = React.useState("00:32:12");
@@ -44,7 +44,7 @@ export default function Start() {
                 {topic}
               </Box>
             </Heading>
-            <HStack 
+            <HStack
               mt="0px !important"
               minWidth="full"
               color={textColor}
@@ -78,7 +78,7 @@ export default function Start() {
           mb={"14px !important"}
           display="flex"
           size="md"
-          w="full" h="250px"
+          w="full" h="200px"
           justifyContent={"center"}
           alignItems={"center"}
           bg="gray.100"
@@ -89,7 +89,7 @@ export default function Start() {
         <Container
           display="flex"
           size="md"
-          w="full" h="250px"
+          w="full" h="200px"
           justifyContent={"center"}
           alignItems={"center"}
           bg="gray.100"
@@ -114,4 +114,4 @@ export default function Start() {
       </VStack>
     </Container>
   )
-} 
+}

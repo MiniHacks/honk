@@ -49,7 +49,7 @@ async function addTopics(user, topics) {
 }
 
 export default async function isdistracted(req, res) {
-    let user = "c5KKbUvTRO77uXpdEA5Q" // req.body['user']
+    let user = "35KKbUvTRO77uXpdEA5Q" // req.body['user']
     //console.log(Object.keys(req));
     //console.log(req.body)
     let ele = JSON.parse(req.body)
@@ -60,7 +60,7 @@ export default async function isdistracted(req, res) {
         previous_embedding_str: previous || ""
     })});
 
-    let data = await response.json();
+    let data = await response;
     let newVec = data['embed_string']
     let distracted = !data['focused']
     let topics = data['keywords']
