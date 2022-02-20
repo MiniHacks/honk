@@ -18,6 +18,7 @@ function getText() {
   formData.append("title", document.querySelector("title")?.innerText);
   formData.append("header", document.querySelector("h1")?.innerText);
   formData.append("content", document.querySelector("body")?.innerText);
+  console.log("IS_DISTRACTED", formData)
   fetch("http://localhost:5001/api/isdistracted", {
     // header: {"Content-Type": "application/json"},
     method: "POST",

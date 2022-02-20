@@ -48,9 +48,12 @@ async function addTopics(user, topics) {
 
 export default async function isdistracted(req, res) {
     let user = "c5KKbUvTRO77uXpdEA5Q" // req.body['user']
-    console.log(req.body);
+    console.log(Object.keys(req));
+    console.log(req.body)
     let ele = JSON.parse(req.body).data
+    console.log("me")
     let previous = JSON.stringify(await getPreviousVector(user))
+    console.log("ouch")
 
     console.log("Request Contents:")
     // console.log("Elements: ", ele);
