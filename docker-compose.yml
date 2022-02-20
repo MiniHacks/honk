@@ -4,10 +4,10 @@ services:
     container_name: caddy
     image: caddy:2.4.6
     restart: unless-stopped
-#    network_mode: "host"
-    ports:
-      - "3000:80"
-      - "3001:443"
+    network_mode: "host"
+#    ports:
+#      - "3000:80"
+#      - "3001:443"
     volumes:
       - $PWD/infra/Caddyfile:/etc/caddy/Caddyfile
       - $PWD/shared:/srv
@@ -17,8 +17,8 @@ services:
       - internal
   nextjs:
     container_name: nextjs
-    depends_on:
-      - mongodb
+#    depends_on:
+#      - mongodb
 #    network_mode: "host"
 #    ports:
 #      - "3000:3000"
