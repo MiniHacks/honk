@@ -15,20 +15,11 @@ services:
       - caddy_config:/config
     networks:
       - internal
-  mongodb:
-    image: mongo
-    container_name: mongodb
-    volumes:
-      - mongodata:/data/db
-    ports:
-      - "27017:27017"
-    networks:
-      - internal
   nextjs:
     container_name: nextjs
     depends_on:
       - mongodb
-    #    network_mode: "host"
+#    network_mode: "host"
 #    ports:
 #      - "3000:3000"
     build: nextjs
@@ -51,14 +42,14 @@ services:
 #    environment:
 #      - "PORT=3002"
 #
-  python_backend:
-    build: "python"
-    environment:
-      - PORT=8000
-    expose:
-      - 8000
-    ports:
-      - "8000:8000"
+#  python_backend:
+#    build: "python"
+#    environment:
+#      - PORT=8000
+#    expose:
+#      - 8000
+#    ports:
+#      - "8000:8000"
 
 volumes:
   mongodata:

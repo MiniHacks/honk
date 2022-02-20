@@ -1,8 +1,7 @@
-:80
+honk.work
 
 header {
     Access-Control-Allow-Origin *
     -Server
 }
-reverse_proxy /express/* http://express:3001
 reverse_proxy * http://nextjs:3000
