@@ -45,7 +45,6 @@ export default function Start() {
         <Button
           alignSelf={"flex-end"}
           variant={"outline"}
-          color={}
           my={10} px={8}
           size='md' fontSize="lg"
           _hover={{ color: "white", bg: accentColor}}
