@@ -4,6 +4,9 @@
   "homepage_url": "https://honk.work",
   "version": "2.0.0",
   "manifest_version": 3,
+  "icons": {
+    "128": "honk_logo.png"
+  },
   "action": {
     "default_title": "Join a Honk session!"
   },
