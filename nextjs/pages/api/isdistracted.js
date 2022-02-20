@@ -9,7 +9,7 @@ async function getVectors(user) {
 
         // 5 minutes in miliseconds.
         if(time - doc.data()['timestamp'] > 1000 * 60 * 1) {
-            await doc.ref.delete()
+            doc.ref.delete()
             // console.log("deleted")
         } else {
             arr.push(doc.data())
@@ -24,7 +24,9 @@ async function getPreviousVector(user) {
     let timestamp = -1;
     let vector = null
     topics.forEach(topic => {
+        console.log(topic)
         if(topic['timestamp'] > timestamp) {
+            timestamp = topic['timestamp']
             vector = topic['vector']
         }
     })
