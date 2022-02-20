@@ -4,7 +4,7 @@
   console.log(getText())
   setInterval(() => {
     console.log(getText())
-  }, 30 * 1000)
+  }, 3 * 1000)
 })();
 
 function getText() {
@@ -17,7 +17,7 @@ function getText() {
   fetch("http://localhost:5001/api/isdistracted", {
     header: {"Content-Type": "application/json"},
     method: "POST",
-    body: JSON.stringify(data)  
+    body: JSON.stringify(data)
    }).then(r => r.json()).then(r => {
      console.log(r);
   })
