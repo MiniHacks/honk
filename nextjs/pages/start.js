@@ -1,8 +1,8 @@
 import {
-  Heading, Text, Link,
+  Heading,
   VStack, Container,
   Image, AspectRatio,
-  Input, Button,
+  Button, HStack,
 } from '@chakra-ui/react';
 
 export default function Start() {
@@ -14,7 +14,7 @@ export default function Start() {
   const focusedColor= '#C9841D';
 
   return (
-    <Container display="flex" justifyContent="center">
+    <Container maxWidth={500} display="flex" justifyContent="center">
       <VStack textAlign={"center"}  my={10} w="fit-content" display="flex">
         {/* Logo, Title, Subtitle */}
         <AspectRatio my={2} ratio={1} w={24}>
@@ -24,34 +24,33 @@ export default function Start() {
           />
         </AspectRatio>
         <Heading size="4xl">
-          I want to study...
-        </Heading>
-        <Heading color={textColor} fontWeight="regular" size="lg">
-          This is a test
+          I want <br /> to study...
         </Heading>
         
-        <Button
-          alignSelf={"flex-end"}
-          bg={accentColor}
-          color={'white'}
-          my={10} px={8}
-          size='md' fontSize="lg"
-          _hover={{ bg: focusedColor}}
-          _focus={{ ring: 3, ringColor: "orange.200" }}
-        >
-          Log In
-        </Button>
+        <HStack w={"full"} spacing={8} py={10}>
+          <Button
+            alignSelf={"flex-end"}
+            bg={accentColor}
+            color={'white'} w={"full"} py={8}
+            size='md' fontSize="2xl"
+            _hover={{ bg: focusedColor}}
+            _focus={{ ring: 3, ringColor: "orange.200" }}
+          >
+            Solo
+          </Button>
 
-        <Button
-          alignSelf={"flex-end"}
-          variant={"outline"}
-          my={10} px={8}
-          size='md' fontSize="lg"
-          _hover={{ color: "white", bg: accentColor}}
-          _focus={{ ring: 3, ringColor: "orange.200" }}
-        >
-          Log In
-        </Button>
+          <Button
+            alignSelf={"flex-end"}
+            borderColor={complementColor}
+            color={complementColor}
+            variant={"outline"} w={"full"} py={8}
+            size='md' fontSize="2xl"
+            _hover={{ color: "white", bg: complementColor}}
+            _focus={{ ring: 3, ringColor: "teal.200" }}
+          >
+            Duo
+          </Button>
+        </HStack>
 
       </VStack>
     </Container>
