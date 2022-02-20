@@ -2,8 +2,12 @@ import {
   Heading, Text, Link,
   VStack, Container,
   Image, AspectRatio,
-  Input, Button,
+  Input, Button, HStack,
+  useClipboard,
 } from '@chakra-ui/react';
+import React from 'react';
+import { CopyIcon } from '@chakra-ui/icons';
+
 
 export default function Start() {
   // TODO - make a theme file
@@ -12,6 +16,10 @@ export default function Start() {
   const accentColor= '#EE9F29';
   const complementColor= "#187589";
   const focusedColor= '#C9841D';
+
+  // TODO - actually integrate room links logic
+  const [value, setValue] = React.useState("honk.work/LI3s2");
+  const { hasCopied, onCopy } = useClipboard(value);
 
   return (
     <Container maxWidth={500} display="flex" justifyContent="center">
@@ -23,45 +31,39 @@ export default function Start() {
             alt="honk"
           />
         </AspectRatio>
-        <Heading size="4xl">
-          Honk!
-        </Heading>
-        <Heading color={textColor} fontWeight="regular" size="lg">
-          Focused, Friendly Learning.
+        <Heading size="2xl">
+          Your Room Link:
         </Heading>
 
-        {/* Phone Number Input */}
-        <Container p={0} mb={10} w="full">
-        <Text py={3}
-          fontSize="lg" fontWeight="semibold"
-          mt={10} textAlign={"left"}
+        <Heading pb={20} // FIXME - p should be m
+          color={complementColor}
+          size="xl"
         >
-          Enter Your Phone Number
-        </Text>
-        <Input mb={4}
-          placeholder={"763-123-456"} w={"full"} />
-        </Container>
-        
+          {value}
+        </Heading>
+
+        <Button my
+          w={"full"}
+          py={8}
+          leftIcon={<CopyIcon />}
+          onClick={onCopy}
+          size='md'
+          fontSize="2xl"
+          _focus={{ ring: 3, ringColor: "orange.200" }}
+        >
+          {hasCopied ? 'Copied!' : 'Copy to Clipboard'}
+         </Button>
         <Button
-          alignSelf={"flex-end"}
           bg={accentColor}
-          color={'white'}
-          my={10} px={8}
-          size='md' fontSize="lg"
+          py={8}
+          color={'white'} w={"full"}
+          size='md'
+          fontSize="2xl"
           _hover={{ bg: focusedColor}}
           _focus={{ ring: 3, ringColor: "orange.200" }}
         >
-          Log In
+          Begin Session
         </Button>
-
-        <Link
-          py={4} fontSize="lg"
-          color={textColor}
-          textDecoration="underline"
-          _hover={{ color: complementColor }}
-        >
-          (Or enter a room link if you have one!)
-        </Link>
       </VStack>
     </Container>
   )
