@@ -15,6 +15,7 @@ class Body(BaseModel):
     element: Element
     previous_embedding_str: str = ""
 
+"""
 from yake import KeywordExtractor
 yake_params = {
     "lan": "en",
@@ -23,7 +24,6 @@ yake_params = {
     "n": 3
 }
 extractor = KeywordExtractor(**yake_params)
-"""
 phrase_extractor = KeywordExtractor(n=3, **yake_params)
 
 import spacy
@@ -36,13 +36,12 @@ model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
 from keybert import KeyBERT
 kw_model = KeyBERT(model=model)
 kw_params = {
-    "keyphrase_ngram_range": (1,3),
+    #"keyphrase_ngram_range": (1,1),
     "stop_words": 'english',
-    "nr_candidates": 20,
-    "top_n": 8,
-    "use_maxsum": True,
+    #"nr_candidates": 20,
+    "top_n": 5,
     "use_mmr": True,
-    "diversity": 0.7
+    "diversity": 0.4
 }
 """
 mpnet_model = SentenceTransformer('sentence-transformers/paraphrase-mpnet-base-v2')
@@ -68,11 +67,9 @@ def topics(body: Body):
         noise_words = [ "badge", "comment", "gold", "silver", "bronze", "upvote", "follow", "edited", "answer"]
         return not any([noise in word for noise in noise_words])
 
-    keywords = extractor.extract_keywords(full_text)
+    keywords = kw_model.extract_keywords(full_text, keyphrase_ngram_range=(2,2), **kw_params)
+    keywords += kw_model.extract_keywords(full_text, keyphrase_ngram_range=(1,1), **kw_params)
     keywords = list(filter(is_valid_keyword, map(lambda x: x[0], keywords)))
-
-    print(kw_model.extract_keywords(full_text, **kw_params))
-    print(f"{keywords=}")
     """
     # ==== YAKE! ====
     print("==== YAKE! ====")
