@@ -51,6 +51,8 @@ const onlyCommands = process.argv.includes("--only")
       })
       ?.split(",") ?? []
   : Object.keys(basicCommands);
+console.log(process.argv)
+const doInstallOnly = process.argv.includes("--install");
 
 let commands = [];
 
@@ -60,7 +62,7 @@ for (const basicCommandsKey in basicCommands) {
   commands.push({
     name: basicCommandsKey,
     prefixColor: basicCommands[basicCommandsKey].color,
-    command: basicCommands[basicCommandsKey].command,
+    command: basicCommands[basicCommandsKey][doInstallOnly ? "install" : "command"],
   });
 }
 
