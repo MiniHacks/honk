@@ -72,5 +72,5 @@ export default async function isdistracted(req, res) {
         data['distracted_by'] = topics[0]
     }
     console.log(Object.keys(data));
-    res.status(200).json(Object.keys(data));
+    res.status(200).json({distracted_by: data['distracted_by']});
 }
