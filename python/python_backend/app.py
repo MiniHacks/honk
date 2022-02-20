@@ -4,6 +4,7 @@ from typing import List, Optional
 from pydantic import BaseModel
 import json
 import numpy as np
+from keybert import KeyBERT
 
 class Element(BaseModel):
     title: str
@@ -18,18 +19,30 @@ class Body(BaseModel):
 from yake import KeywordExtractor
 yake_params = {
     "lan": "en",
-    "dedupLim": 0.9, # try 0.1 to distil sets?
-    "top": 10
+    "dedupLim": 0.3, # try 0.1 to distil sets?
+    "top": 20,
+    "n": 3
 }
+extractor = KeywordExtractor(**yake_params)
 phrase_extractor = KeywordExtractor(n=3, **yake_params)
-word_extractor = KeywordExtractor(n=1, **yake_params)
 
 import spacy
 nlp = spacy.load("en_core_web_trf")
 """
 
 from sentence_transformers import SentenceTransformer
-model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2') # probably the strongest
+model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
+
+from keybert import KeyBERT
+kw_model = KeyBERT(model=model)
+kw_params = {
+    #"keyphrase_ngram_range": (1,1),
+    "stop_words": 'english',
+    #"nr_candidates": 20,
+    "top_n": 5,
+    "use_mmr": True,
+    "diversity": 0.4
+}
 """
 mpnet_model = SentenceTransformer('sentence-transformers/paraphrase-mpnet-base-v2')
 mini_para_model = SentenceTransformer('sentence-transformers/paraphrase-MiniLM-L6-v2')
@@ -40,7 +53,7 @@ app = FastAPI()
 
 @app.get("/python/")
 async def root():
-    return {"message": "Hello World"}
+    return {"message": "HONK!"}
 
 @app.get("/python/embeddings")
 @app.post("/python/embeddings")
@@ -49,6 +62,14 @@ def topics(body: Body):
     content = body.element.content
     header = body.element.header
     full_text = title + header + content
+
+    def is_valid_keyword(word):
+        noise_words = [ "badge", "comment", "gold", "silver", "bronze", "upvote", "follow", "edited", "answer"]
+        return not any([noise in word for noise in noise_words])
+
+    keywords = kw_model.extract_keywords(full_text, keyphrase_ngram_range=(2,2), **kw_params)
+    keywords += kw_model.extract_keywords(full_text, keyphrase_ngram_range=(1,1), **kw_params)
+    keywords = list(filter(is_valid_keyword, map(lambda x: x[0], keywords)))
     """
     # ==== YAKE! ====
     print("==== YAKE! ====")
@@ -94,7 +115,7 @@ def topics(body: Body):
 
     # focused by default if no previous topic exists
     if not body.previous_embedding_str:
-        return { "focused": True, "embed_string": embed_string }
+        return { "focused": True, "embed_string": embed_string, "keywords": keywords }
 
     # load the previous embedding from the string
     previous_embedding = np.array(json.loads(body.previous_embedding_str))
@@ -103,4 +124,4 @@ def topics(body: Body):
     # the embedding is not normalized, we could divide by 2 but >1 is more fun
     focused = bool(similarity > 1)
 
-    return { "focused": focused, "embed_string": embed_string }
+    return { "focused": focused, "embed_string": embed_string, "keywords": keywords }
