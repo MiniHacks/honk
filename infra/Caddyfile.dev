@@ -1,5 +1,9 @@
 http://localhost:5001
 
+header {
+    Access-Control-Allow-Origin *
+    -Server
+}
 reverse_proxy /express/* http://localhost:3001
 reverse_proxy /python/* http://localhost:8000
 reverse_proxy * http://localhost:3000

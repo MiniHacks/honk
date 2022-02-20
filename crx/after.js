@@ -8,9 +8,22 @@
 })();
 
 function getText() {
-  return {
+  if (location.href.includes("google.com")) return;
+  const data = {
     title: document.querySelector("title")?.innerText,
     header: document.querySelector("h1")?.innerText,
     content: document.querySelector("body")?.innerText
-  }
+  };
+  const formData = new FormData();
+  formData.append("title", document.querySelector("title")?.innerText);
+  formData.append("header", document.querySelector("h1")?.innerText);
+  formData.append("content", document.querySelector("body")?.innerText);
+  fetch("http://localhost:5001/api/isdistracted", {
+    // header: {"Content-Type": "application/json"},
+    method: "POST",
+    body: formData
+   }).then(r => r.json()).then(r => {
+     console.log(r);
+  })
+  return;
 }
