@@ -1,7 +1,7 @@
 import {
-  Heading, Text, Box,
+  Heading, Text,
   VStack, Container,
-  Button, HStack, Image, AspectRatio
+  Button, HStack, Image,
 } from '@chakra-ui/react';
 import React from 'react';
 
@@ -18,7 +18,6 @@ export default function Start() {
   // TODO - actually integrate selected topic and times
   let [topic, setTopic] = React.useState("Databases");
   let [newTopic, setNewTopic] = React.useState("Cute Geese Boys");
-  let [percentFocused, setPercentFocused] = React.useState("-49%");
 
   // TODO - also format this cool stuff
   // 07:12:04 eg. 7 hours 12 minutes 4 seconds
@@ -78,7 +77,6 @@ export default function Start() {
               </Button>
             </HStack>
           </VStack>
-
             <Image
                 position={"fixed"}
                 left={"50%"}
