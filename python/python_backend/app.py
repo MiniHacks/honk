@@ -81,17 +81,26 @@ def topics(body: Body):
 
     return list(set(yake_phrases + yake_words))#+ ents))
     """
+
+    # create 384 length embeddings for the title and full text
+    # prioritize title and header (only take 250 tokens)
     title_embedding = model.encode(title)
     text_embedding = model.encode(full_text)
 
+    # concatenate vectors to form 768 length full embedding
     new_embedding = np.hstack((title_embedding, text_embedding))
+    # prepare embedding for transfer
     embed_string = json.dumps(new_embedding.tolist())
 
+    # focused by default if no previous topic exists
     if not body.previous_embedding_str:
         return { "focused": True, "embed_string": embed_string }
 
+    # load the previous embedding from the string
     previous_embedding = np.array(json.loads(body.previous_embedding_str))
+    # compare the current and previous topic via bootleg cosine similarity
     similarity = np.dot(new_embedding, previous_embedding)
+    # the embedding is not normalized, we could divide by 2 but >1 is more fun
     focused = bool(similarity > 1)
 
     return { "focused": focused, "embed_string": embed_string }
