@@ -15,17 +15,39 @@ class Body(BaseModel):
     element: Element
     previous_embedding_str: str = ""
 
+"""
+from yake import KeywordExtractor
+yake_params = {
+    "lan": "en",
+    "dedupLim": 0.3, # try 0.1 to distil sets?
+    "top": 20,
+    "n": 3
+}
+extractor = KeywordExtractor(**yake_params)
+phrase_extractor = KeywordExtractor(n=3, **yake_params)
+
+import spacy
+nlp = spacy.load("en_core_web_trf")
+"""
+
 from sentence_transformers import SentenceTransformer
 model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
 
 from keybert import KeyBERT
 kw_model = KeyBERT(model=model)
 kw_params = {
+    #"keyphrase_ngram_range": (1,1),
     "stop_words": 'english',
+    #"nr_candidates": 20,
     "top_n": 5,
     "use_mmr": True,
     "diversity": 0.4
 }
+"""
+mpnet_model = SentenceTransformer('sentence-transformers/paraphrase-mpnet-base-v2')
+mini_para_model = SentenceTransformer('sentence-transformers/paraphrase-MiniLM-L6-v2')
+mini_all_model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2') # probably the strongest
+"""
 
 app = FastAPI()
 
@@ -46,9 +68,40 @@ def topics(body: Body):
         return not any([noise in word for noise in noise_words])
 
     keywords = kw_model.extract_keywords(full_text, keyphrase_ngram_range=(2,2), **kw_params)
-    # model prefers to extract maximum length ngram, force shorter (keyword) ngrams
     keywords += kw_model.extract_keywords(full_text, keyphrase_ngram_range=(1,1), **kw_params)
     keywords = list(filter(is_valid_keyword, map(lambda x: x[0], keywords)))
+    """
+    # ==== YAKE! ====
+    print("==== YAKE! ====")
+    yake_phrases = phrase_extractor.extract_keywords(full_text)
+    yake_words = word_extractor.extract_keywords(full_text)
+    print(f"{yake_phrases=}")
+    print(f"{yake_words=}")
+
+    # ==== SpaCy ====
+    print("==== SpaCy =====")
+    doc = nlp(full_text)
+    entities = doc.ents
+    print(f"{entities=}")
+
+    # ==== HuggingFace ====
+    print("==== HuggingFace ====")
+    mpnet_title_embeds = mpnet_model.encode(title)
+    mpnet_text_embeds = mpnet_model.encode(full_text)
+    mini_all_title_embeds = mini_all_model.encode(title)
+    mini_all_text_embeds = mini_all_model.encode(full_text)
+    mini_para_title_embeds = mini_para_model.encode(title)
+    mini_para_text_embeds = mini_para_model.encode(full_text)
+
+    # ==== Processing ====
+    print("==== Processing =====")
+    yake_phrases = list(map(lambda x: x[0], filter(lambda x: x[1] < 0.1, phrase_extractor.extract_keywords(full_text))))
+    yake_words = list(map(lambda x: x[0], filter(lambda x: x[1] < 0.1, word_extractor.extract_keywords(full_text))))
+    print(f"processed {yake_phrases=}")
+    print(f"processed {yake_words=}")
+
+    return list(set(yake_phrases + yake_words))#+ ents))
+    """
 
     # create 384 length embeddings for the title and full text
     # prioritize title and header (only take 250 tokens)
