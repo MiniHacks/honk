@@ -9,18 +9,18 @@ yake_params = {
     "top": 10
 }
 
-import spacy
-nlp = spacy.load("en_core_sci_lg")
+#import spacy
+#nlp = spacy.load("en_core_sci_lg")
 
 app = FastAPI()
-phrase_extractor = KeywordExtractor(max_ngram_size=3, **yake_params)
-word_extractor = KeywordExtractor(max_ngram_size=1, **yake_params)
+phrase_extractor = KeywordExtractor(n=3, **yake_params)
+word_extractor = KeywordExtractor(n=1, **yake_params)
 
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
 
-@app.get("/topics")
+@app.get("/python/topics")
 def topics(title: str, content: str, header: str = ""):
     full_text = title + header + content
     # ==== YAKE! ====
@@ -32,8 +32,8 @@ def topics(title: str, content: str, header: str = ""):
 
     # ==== SpaCy ====
     print("==== SpaCy =====")
-    doc = nlp(full_text)
-    ents = doc.ents
+    #doc = nlp(full_text)
+    #ents = doc.ents
     print(f"{ents=}")
 
     # ==== Processing ====
@@ -42,8 +42,8 @@ def topics(title: str, content: str, header: str = ""):
     print(f"processed {yake_phrases=}")
     print(f"processed {yake_words=}")
 
-    return list(set(yake_phrases + yake_words + ents))
+    return list(set(yake_phrases + yake_words))#+ ents))
 
-@app.get("/distracted")
+@app.get("/python/distracted")
 def distracted(topics: List[List[str]]):
     return random() > 0.3
