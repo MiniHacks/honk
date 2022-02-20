@@ -51,7 +51,12 @@ def topics(body: Body):
     header = body.element.header
     full_text = title + header + content
 
+    def is_valid_keyword(word):
+        noise_words = [ "badge", "comment", "gold", "silver", "bronze", "upvote", "follow", "edited", "answer"]
+        return not any([noise in word for noise in noise_words])
+
     keywords = extractor.extract_keywords(full_text)
+    keywords = list(filter(is_valid_keyword, keywords))
     print(f"{keywords=}")
     """
     # ==== YAKE! ====
